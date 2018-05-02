@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'POS Customer Account',
+    'version': '1.0.1',
+    'category': 'Point Of Sale',
+    'author': 'Rob Harrington',
+    'sequence': 10,
+    'summary': 'Manage credit/debits to customer accounts',
+    'description': "",
+    'depends': ['point_of_sale'],
+    'data': [
+        'data/pos_customer_credit_data.xml',
+        'views/partner_views.xml',
+    ],
+    'qweb': [],
+    'images': [],
+    'installable': True,
+    'application': False,
+    'license': 'LGPL-3'
+}
