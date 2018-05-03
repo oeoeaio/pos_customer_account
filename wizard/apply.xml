@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="pos_customer_account_apply_credit">
+            <field name="name">pos.customer.account.apply.form</field>
+            <field name="model">pos.customer.account.apply.credit</field>
+            <field name="view_type">form</field>
+            <field name="arch" type="xml">
+                <form string="Apply Credit">
+                    <sheet>
+                        Applying Credit to <field name="partner" readonly='1'/>'s Account
+                        <group>
+                            <field name="counterpart_account"/>
+                            <field name="label" default_focus='1'/>
+                            <field name="reference"/>
+                            <field name="amount"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_apply" string="Apply Credit" type="object" class="btn-primary"/>
+                        <button special="cancel" string="Cancel" class="btn-default"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_customer_account_apply_credit_form" model="ir.actions.act_window">
+            <field name="name">Apply Credit</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.customer.account.apply.credit</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.ui.view" id="pos_customer_account_apply_debit">
+            <field name="name">pos.customer.account.apply.form</field>
+            <field name="model">pos.customer.account.apply.debit</field>
+            <field name="view_type">form</field>
+            <field name="arch" type="xml">
+                <form string="Apply Debit">
+                    <sheet>
+                        Applying Debit to <field name="partner" readonly='1'/>'s Account
+                        <group>
+                            <field name="counterpart_account"/>
+                            <field name="label" default_focus='1'/>
+                            <field name="reference"/>
+                            <field name="amount"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_apply" string="Apply Debit" type="object" class="btn-primary"/>
+                        <button special="cancel" string="Cancel" class="btn-default"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_customer_account_apply_debit_form" model="ir.actions.act_window">
+            <field name="name">Apply Debit</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.customer.account.apply.debit</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
