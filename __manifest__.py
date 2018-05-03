@@ -10,6 +10,7 @@
     'depends': ['point_of_sale'],
     'data': [
         'data/pos_customer_credit_data.xml',
+        'views/account_move_views.xml',
         'views/partner_views.xml',
     ],
     'qweb': [],
