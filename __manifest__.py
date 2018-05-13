@@ -13,8 +13,11 @@
         'data/pos_customer_credit_data.xml',
         'views/account_move_views.xml',
         'views/partner_views.xml',
+        'views/assets.xml',
     ],
-    'qweb': [],
+    'qweb': [
+        'static/src/xml/account_templates.xml'
+    ],
     'images': [],
     'installable': True,
     'application': False,

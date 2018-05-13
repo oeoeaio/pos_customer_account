@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos.customer.account.template" xml:space="preserve">
+
+    <t t-name="CreditButton">
+        <t t-set="button_class" t-value="(widget.disabled ? 'disabled' : (widget.highlight ? 'highlighted' : ''))"/>
+        <div t-attf-class="button js_credit {{ button_class }}">
+            <i class="fa fa-usd"></i>
+                <t t-esc="widget.label"/>
+        </div>
+    </t>
+</templates>
