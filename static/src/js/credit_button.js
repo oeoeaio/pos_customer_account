@@ -38,7 +38,7 @@ odoo.define('pos.customer.account.credit_button', function (require) {
             else if (credit > 0) {
               this.label = "Paying: " + this.paymentScreen.format_currency(credit)
             }
-            this.update_balance(balance + credit);
+            this.update_balance(balance);
         },
         click_credit: function(){
             var client = this.pos.get_client();
@@ -66,7 +66,6 @@ odoo.define('pos.customer.account.credit_button', function (require) {
                     order.set_credit(field_utils.parse.float(value));
                     self.paymentScreen.order_changes();
                     self.paymentScreen.render_paymentlines();
-                    self.order_changes();
                 },
             });
         },
@@ -78,14 +77,24 @@ odoo.define('pos.customer.account.credit_button', function (require) {
             this.set_label();
             this.renderElement();
         },
+        account_payment_total: function(journal_id){
+          var order = this.pos.get_order();
+          return order.paymentlines.filter(function(paymentLine){
+            return paymentLine.cashregister.journal_id[0] == journal_id;
+          }).reduce((function(sum, paymentLine) {
+            return sum + paymentLine.get_amount();
+          }), 0);
+        },
         update_balance: function(balance){
             var jid = this.pos.db.account_journal_id;
             if (!jid) return;
+            var tendered = this.account_payment_total(jid);
             var method = this.paymentScreen.$('.paymentmethod[data-id="' +jid+ '"]');
             var element = method.children('.balance');
             if (!element.length) element = $("<div class='balance'></div>").appendTo(method);
-            element.toggleClass('credit', balance >= 0).toggleClass('debt', balance < 0)
-            element.text("("+this.paymentScreen.format_currency(balance)+")")
+            element.toggleClass('credit', balance-tendered >= 0).toggleClass('debt', balance-tendered < 0)
+            element.text("("+this.paymentScreen.format_currency(balance-tendered)+")")
+            method.toggleClass('credit', tendered == 0);
         },
     });
 
@@ -175,6 +184,11 @@ odoo.define('pos.customer.account.credit_button', function (require) {
           this.credit_button.appendTo(this.$('.payment-buttons'));
         },
         show: function(){
+            this.credit_button.order_changes();
+            this._super();
+        },
+        render_paymentlines: function(){
+            if (!this.credit_button) return;
             this.credit_button.order_changes();
             this._super();
         },

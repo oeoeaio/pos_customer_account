@@ -3,6 +3,14 @@
   background-color: #cb0000;
 }
 
+.pos .payment-screen .paymentmethods .paymentmethod.credit{
+  color: #ffffff;
+  background-color: #6EC89B;
+}
+.pos .payment-screen .paymentmethods .paymentmethod.credit .balance.credit,
+.pos .payment-screen .paymentmethods .paymentmethod.credit .balance.debit {
+  color: #ffffff;
+}
 
 .pos .payment-screen .paymentmethods .paymentmethod .balance {
     margin-top: -28px;
