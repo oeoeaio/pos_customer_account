@@ -2,6 +2,21 @@
 <odoo>
     <data>
 
+        <record id="view_pos_customer_account_filter" model="ir.ui.view">
+            <field name="name">pos.customer.account.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Customers">
+                    <field name="name"
+                         filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
+                     <separator/>
+                    <filter name="filter_to_in_debt" string="In Debt" domain="[('account_balance', '&lt;', 0)]"/>
+                    <filter name="filter_to_in_credit" string="In Credit" domain="[('account_balance', '&gt;', 0)]"/>
+                </search>
+            </field>
+        </record>
+
+
         <record id="view_partner_property_form" model="ir.ui.view">
             <field name="name">res.partner.pos.form.inherit</field>
             <field name="model">res.partner</field>
@@ -52,8 +67,8 @@
               <field name="res_model">res.partner</field>
               <field name="view_type">form</field>
               <field name="view_mode">tree,form</field>
-              <field name="domain">[]</field>
-              <field name="context">{'default_customer':1, 'search_default_customer':1, 'default_company_type': 'company','default_is_company': 1}</field>
+              <field name="domain">[('customer','=',1), ('parent_id', '=', False)]</field>
+              <field name="search_view_id" ref="view_pos_customer_account_filter"/>
               <field name="filter" eval="True"/>
           </record>
           <record id="action_customer_account_form_view1" model="ir.actions.act_window.view">
