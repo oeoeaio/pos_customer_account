@@ -52,10 +52,6 @@
                     <field name="user_id" invisible="1"/>
                     <button type="action" name="%(action_account_move_line_form)d"
                         context="{'search_default_partner_id': id,'default_partner_id': id}" string="View History"/>
-                    <button type="action" name="%(action_customer_account_apply_credit_form)d"
-                        context="{'active_partner_id': id}" string="Apply Credit"/>
-                    <button type="action" name="%(action_customer_account_apply_debit_form)d"
-                        context="{'active_partner_id': id}" string="Apply Debit"/>
                 </tree>
             </field>
         </record>
