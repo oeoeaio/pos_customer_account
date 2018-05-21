@@ -35,6 +35,10 @@ odoo.define('pos.customer.account.credit_button', function (require) {
               this.label = "Pay Debt (" + this.paymentScreen.format_currency(-balance) + ")";
               this.highlight = true;
             }
+            else if (credit > 0) {
+              this.label = "Paying: " + this.paymentScreen.format_currency(credit)
+            }
+            this.update_balance(balance + credit);
         },
         click_credit: function(){
             var client = this.pos.get_client();
@@ -74,6 +78,15 @@ odoo.define('pos.customer.account.credit_button', function (require) {
             this.set_label();
             this.renderElement();
         },
+        update_balance: function(balance){
+            var jid = this.pos.db.account_journal_id;
+            if (!jid) return;
+            var method = this.paymentScreen.$('.paymentmethod[data-id="' +jid+ '"]');
+            var element = method.children('.balance');
+            if (!element.length) element = $("<div class='balance'></div>").appendTo(method);
+            element.toggleClass('credit', balance >= 0).toggleClass('debt', balance < 0)
+            element.text("("+this.paymentScreen.format_currency(balance)+")")
+        },
     });
 
     // Find the model request for partners (customers)
@@ -86,13 +99,20 @@ odoo.define('pos.customer.account.credit_button', function (require) {
         }
     }
 
-    // At POS startup, load the account payment product if it exists
+    // At POS startup, find the account journal and account payment product id if they exist
     models.load_models({
         model: 'ir.model.data',
-        fields: ['res_id'],
-        domain: ['&', ['name','=','account_payment_product'],['model', '=', 'product.product']],
-        loaded: function(self,products){
-            self.db.account_payment_product_id = products[0].res_id;
+        fields: ['res_id','name','model'],
+        domain: [['name','in',['pos_customer_account_journal','account_payment_product']]],
+        loaded: function(self,data){
+            for (var i=0;i<data.length;i++){
+                if (data[i].name == 'account_payment_product' && data[i].model == 'product.product'){
+                    self.db.account_payment_product_id = data[i].res_id;
+                }
+                else if (data[i].name == 'pos_customer_account_journal' && data[i].model == 'account.journal'){
+                    self.db.account_journal_id = data[i].res_id;
+                }
+            }
         },
     });
 
@@ -127,6 +147,23 @@ odoo.define('pos.customer.account.credit_button', function (require) {
                 }
                 return 0;
             }
+        },
+        add_paymentline: function(cashregister) {
+            var jid = this.pos.db.account_journal_id;
+            if (jid != cashregister.journal_id[0]) {
+              _super_order.add_paymentline.apply(this,arguments);
+              return;
+            }
+            var client = this.get_client();
+            if (!client) return;
+            this.assert_editable();
+            var newPaymentline = new models.Paymentline({},{order: this, cashregister:cashregister, pos: this.pos});
+            var balance = client.account_balance;
+            var due = this.get_due();
+            var toPay = (balance > 0 ? Math.min(balance,due) : due);
+            newPaymentline.set_amount( toPay );
+            this.paymentlines.add(newPaymentline);
+            this.select_paymentline(newPaymentline);
         },
     });
 
