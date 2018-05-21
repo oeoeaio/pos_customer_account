@@ -9,10 +9,10 @@
             <field name="arch" type="xml">
                 <form string="Apply Credit">
                     <sheet>
-                        Applying Credit to <field name="partner" readonly='1'/>'s Account
                         <group>
+                            <field name="partner" default_focus='1'/>
                             <field name="counterpart_account"/>
-                            <field name="label" default_focus='1'/>
+                            <field name="label"/>
                             <field name="reference"/>
                             <field name="amount"/>
                         </group>
@@ -40,10 +40,10 @@
             <field name="arch" type="xml">
                 <form string="Apply Debit">
                     <sheet>
-                        Applying Debit to <field name="partner" readonly='1'/>'s Account
                         <group>
+                            <field name="partner" default_focus='1'/>
                             <field name="counterpart_account"/>
-                            <field name="label" default_focus='1'/>
+                            <field name="label"/>
                             <field name="reference"/>
                             <field name="amount"/>
                         </group>

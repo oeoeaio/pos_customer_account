@@ -8,4 +8,15 @@
                 <t t-esc="widget.label"/>
         </div>
     </t>
+
+    <t t-extend="ListView.buttons">
+        <t t-jquery="button.o_list_button_discard" t-operation="after">
+            <button t-if="widget.modelName == 'account.move.line'" type="button" class="btn btn-success btn-sm oe_apply_credit_button">
+                Apply Credit
+            </button>
+            <button t-if="widget.modelName == 'account.move.line'" type="button" class="btn btn-danger btn-sm oe_apply_debit_button">
+                Apply Debit
+            </button>
+        </t>
+    </t>
 </templates>
