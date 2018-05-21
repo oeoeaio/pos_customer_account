@@ -9,8 +9,8 @@
     'description': "",
     'depends': ['point_of_sale'],
     'data': [
-        'wizard/apply.xml',
         'data/pos_customer_credit_data.xml',
+        'wizard/apply.xml',
         'views/account_move_views.xml',
         'views/partner_views.xml',
         'views/assets.xml',
