@@ -17,7 +17,8 @@ class ResPartner(models.Model):
             partner.account_balance = balance
 
     def _account_lines_domain(self):
-        account_id = self.env.ref('pos_customer_account.customer_account_account').id
+        account = self.env.ref('pos_customer_account.customer_account_account', False)
+        account_id = account and account.id
         return [('account_id', '=', account_id)]
 
     account_lines = fields.One2many('account.move.line', 'partner_id', domain=_account_lines_domain)
