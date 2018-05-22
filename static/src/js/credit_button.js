@@ -94,7 +94,7 @@ odoo.define('pos.customer.account.credit_button', function (require) {
             if (!element.length) element = $("<div class='balance'></div>").appendTo(method);
             element.toggleClass('credit', balance-tendered >= 0).toggleClass('debt', balance-tendered < 0)
             element.text("("+this.paymentScreen.format_currency(balance-tendered)+")")
-            method.toggleClass('credit', tendered == 0);
+            method.toggleClass('credit', tendered == 0 && balance > 0);
         },
     });
 
