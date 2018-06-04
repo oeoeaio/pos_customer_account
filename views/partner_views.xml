@@ -51,7 +51,7 @@
                     <field name="currency_id" invisible="1"/>
                     <field name="user_id" invisible="1"/>
                     <button type="action" name="%(action_account_move_line_form)d"
-                        context="{'search_default_partner_id': id,'default_partner_id': id}" string="View History"/>
+                        context="{'search_default_partner_id': id, 'active_partner_id': id}" string="View History"/>
                 </tree>
             </field>
         </record>
@@ -79,14 +79,5 @@
               <field name="view_id" ref="base.view_partner_form"/>
               <field name="act_window_id" ref="action_partner_customer_account_form"/>
           </record>
-
-          <menuitem id="menu_point_customers"
-              name="Customers"
-              parent="point_of_sale.menu_point_root"
-              sequence="50"/>
-
-          <menuitem id="menu_customer_account" name="Customers"
-              action="action_partner_customer_account_form"
-              parent="menu_point_customers" sequence="1"/>
       </data>
   </odoo>
