@@ -3,7 +3,7 @@
 
     <t t-name="CreditButton">
         <t t-set="button_class" t-value="(widget.disabled ? 'disabled' : (widget.highlight ? 'highlighted' : ''))"/>
-        <div t-attf-class="button js_credit {{ button_class }}">
+        <div t-attf-class="control-button button js_credit {{ button_class }}">
             <i class="fa fa-usd"></i>
                 <t t-esc="widget.label"/>
         </div>

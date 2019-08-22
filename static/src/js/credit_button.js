@@ -44,6 +44,18 @@ odoo.define('pos.customer.account.credit_button', function (require) {
             var client = this.pos.get_client();
             if (!client) { return; }
 
+            var jid = this.pos.db.account_journal_id;
+            if (jid) {
+              var tendered = this.account_payment_total(jid);
+
+              if (tendered > 0) {
+                return this.pos.gui.show_popup('alert', {
+                  title: 'Oops!',
+                  body: 'You cannot pay for account credit using the Account payment method. Please pay with only Card or Cash if you wish to pay off or add credit to this account.'
+                });
+              }
+            }
+
             var self   = this;
             var order  = this.pos.get_order();
             var credit = order.get_credit();
@@ -164,7 +176,21 @@ odoo.define('pos.customer.account.credit_button', function (require) {
               return;
             }
             var client = this.get_client();
-            if (!client) return;
+
+            if (!client) {
+              return this.pos.gui.show_popup('alert', {
+                title: 'Oops!',
+                body: 'You cannot pay on account when no customer is selected.'
+              });
+            }
+
+            if (this.get_credit() > 0) {
+              return this.pos.gui.show_popup('alert', {
+                title: 'Oops!',
+                body: 'You cannot pay on Account when account credit is being purchased. Please remove the account payment item from the order before paying on Account.'
+              });
+            }
+
             this.assert_editable();
             var newPaymentline = new models.Paymentline({},{order: this, cashregister:cashregister, pos: this.pos});
             var balance = client.account_balance;
