@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'POS Customer Account',
-    'version': '1.0.1',
+    'version': '1.0.2',
     'category': 'Point Of Sale',
     'author': 'Rob Harrington',
     'sequence': 10,
