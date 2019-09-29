@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="pos_customer_account_bulk_import">
+            <field name="name">pos.customer.account.bulk_import</field>
+            <field name="model">pos.customer.account.bulk_import</field>
+            <field name="view_type">form</field>
+            <field name="arch" type="xml">
+                <form string="Bulk Import">
+                    <sheet>
+                        <div>Import transactions from CSV, designed for credit transactions only.</div>
+                        <br />
+                        <div>Fields (in order):</div>
+                        <div>
+                          <strong>date</strong>: a date in YYYY-MM-DD format.
+                        </div>
+                        <div>
+                          <strong>customer</strong>: the External ID from the Customers-exp sheet.
+                        </div>
+                        <div>
+                          <strong>description</strong>: a description of the transaction (probably 'EFT').
+                        </div>
+                        <div>
+                          <strong>reference</strong>: the reference from the bank statement.
+                        </div>
+                        <div>
+                          <strong>amount</strong>: a positive number (no $ sign).
+                        </div>
+                        <br />
+                        <group>
+                            <field name="data" filename="file_name" />
+                            <field name="file_name" invisible="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_import" string="Import" type="object" class="btn-primary"/>
+                        <button special="cancel" string="Cancel" class="btn-default"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_customer_account_bulk_import_form" model="ir.actions.act_window">
+            <field name="name">Bulk Import</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.customer.account.bulk_import</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

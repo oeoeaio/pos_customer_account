@@ -11,6 +11,7 @@
     'data': [
         'data/pos_customer_credit_data.xml',
         'wizard/apply.xml',
+        'wizard/bulk_import.xml',
         'views/account_move_views.xml',
         'views/partner_views.xml',
         'views/assets.xml',
