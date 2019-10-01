@@ -16,16 +16,16 @@
                           <strong>date</strong>: a date in YYYY-MM-DD format.
                         </div>
                         <div>
-                          <strong>customer</strong>: the External ID from the Customers-exp sheet.
+                          <strong>customer_id</strong>: the External ID from the Customers-exp sheet.
                         </div>
                         <div>
-                          <strong>description</strong>: a description of the transaction (probably 'EFT').
+                          <strong>label</strong>: a unique identifier for the transaction.
                         </div>
                         <div>
                           <strong>reference</strong>: the reference from the bank statement.
                         </div>
                         <div>
-                          <strong>amount</strong>: a positive number (no $ sign).
+                          <strong>credit</strong>: the credit amount, a positive number (no $ sign).
                         </div>
                         <br />
                         <group>

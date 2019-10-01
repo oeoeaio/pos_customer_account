@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class BulkImport(models.TransientModel):
     _name = 'pos.customer.account.bulk_import'
-    _EXPECTED_FIELDS = ['date', 'customer', 'description', 'reference', 'amount']
+    _EXPECTED_FIELDS = ['date', 'customer_id', 'label', 'reference', 'credit']
 
     data = fields.Binary(string="Upload File")
     file_name = fields.Char(string="File Name")
@@ -33,10 +33,10 @@ class BulkImport(models.TransientModel):
     def _parse(self, row):
         return {
           'date': self._get_date(row['date']),
-          'partner_id': self._get_partner_id(row['customer']),
-          'description': self._get_description(row['description']),
+          'partner_id': self._get_partner_id(row['customer_id']),
+          'label': self._get_label(row['label']),
           'reference': self._get_reference(row['reference']),
-          'amount': self._get_amount(row['amount'])
+          'credit': self._get_credit(row['credit'])
         }
 
     def _data_file(self):
@@ -62,24 +62,24 @@ class BulkImport(models.TransientModel):
         except ValueError:
             raise ValidationError("Could not find customer: %s." %(external_id))
 
-    def _get_description(self, raw_description):
-        if raw_description == '':
-            raise ValidationError('Invalid empty description found. Description must be filled.')
-        return raw_description
+    def _get_label(self, raw_label):
+        if raw_label == '':
+            raise ValidationError('Invalid empty label found. Label must be filled.')
+        return raw_label
 
     def _get_reference(self, raw_reference):
         if raw_reference == '':
             raise ValidationError('Invalid empty reference found. Reference must be filled.')
         return raw_reference
 
-    def _get_amount(self, raw_amount):
+    def _get_credit(self, raw_credit):
         try:
-            amount = float(raw_amount)
-            if amount <= 0:
-                raise ValidationError("Invalid amount found (%s). Amount must be a positive number." %(raw_amount))
-            return amount
+            credit = float(raw_credit)
+            if credit <= 0:
+                raise ValidationError("Invalid credit amount found (%s). Credit must be a positive number." %(raw_credit))
+            return credit
         except ValueError:
-            raise ValidationError("Invalid amount found (%s). Amount must be a positive number." %(raw_amount))
+            raise ValidationError("Invalid credit amount found (%s). Credit must be a positive number." %(raw_credit))
 
     @memoize
     def _counterpart_account_id(self):
@@ -97,19 +97,19 @@ class BulkImport(models.TransientModel):
     def _apply(self, transaction):
         move = self._create_account_move(transaction['date'], transaction['reference'])
         lines = [(0,0,{
-            'name': transaction['description'],
+            'name': transaction['label'],
             'move_id': move.id,
             'account_id': self._account_id(),
             'partner_id': transaction['partner_id'],
-            'credit': transaction['amount'],
+            'credit': transaction['credit'],
             'debit': 0.0,
         }),(0,0,{
-            'name': transaction['description'],
+            'name': transaction['label'],
             'move_id': move.id,
             'account_id': self._counterpart_account_id(),
             'partner_id': transaction['partner_id'],
             'credit': 0.0,
-            'debit': transaction['amount'],
+            'debit': transaction['credit'],
         })]
         _logger.info(str(lines))
         move.sudo().write({'line_ids': lines})
