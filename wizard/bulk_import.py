@@ -27,6 +27,7 @@ class BulkImport(models.TransientModel):
         self._validate_headers(readCSV.fieldnames)
         for row in readCSV:
             transaction = self._parse(row)
+            self._check_for_existing_move(transaction)
             self._apply(transaction)
         return {}
 
@@ -93,9 +94,16 @@ class BulkImport(models.TransientModel):
     def _journal_id(self):
         return self.env.ref('pos_customer_account.pos_customer_account_journal').id
 
+    def _check_for_existing_move(self, transaction):
+        result = self.env['ir.model.data'].search_count([('name', '=', transaction['label'])])
+        if result:
+            raise ValidationError('Transaction %s already exists.' %(transaction['label']))
+
     @api.multi
     def _apply(self, transaction):
         move = self._create_account_move(transaction['date'], transaction['reference'])
+        self.env['ir.model.data'].create({'name': transaction['label'], 'model': 'account.move', 'res_id': move.id})
+
         lines = [(0,0,{
             'name': transaction['label'],
             'move_id': move.id,
