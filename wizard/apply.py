@@ -18,7 +18,6 @@ class Apply(models.TransientModel):
     reference = fields.Char("Reference", help="A reference number (eg. transaction or order number)")
     amount = fields.Float("Amount", required=True, default=0.0)
 
-    @api.multi
     @api.constrains('amount')
     def _check_phone_number(self):
         for rec in self:
@@ -33,7 +32,6 @@ class Apply(models.TransientModel):
         result['counterpart_account'] = self._default_counterpart_account().id
         return result
 
-    @api.multi
     def action_apply(self):
         account_id = self.env.ref('pos_customer_account.customer_account_account').id
         journal_id = self.env.ref('pos_customer_account.pos_customer_account_journal').id

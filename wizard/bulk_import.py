@@ -21,7 +21,6 @@ class BulkImport(models.TransientModel):
             return memo[x]
         return helper
 
-    @api.multi
     def action_import(self):
         readCSV = csv.DictReader(self._data_file(), delimiter=',')
         self._validate_headers(readCSV.fieldnames)
@@ -99,7 +98,6 @@ class BulkImport(models.TransientModel):
         if result:
             raise ValidationError('Transaction %s already exists.' %(transaction['label']))
 
-    @api.multi
     def _apply(self, transaction):
         move = self._create_account_move(transaction['date'], transaction['reference'])
         self.env['ir.model.data'].create({'name': transaction['label'], 'model': 'account.move', 'res_id': move.id})
