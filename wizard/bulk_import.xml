@@ -5,7 +5,6 @@
         <record model="ir.ui.view" id="pos_customer_account_bulk_import">
             <field name="name">pos.customer.account.bulk_import</field>
             <field name="model">pos.customer.account.bulk_import</field>
-            <field name="view_type">form</field>
             <field name="arch" type="xml">
                 <form string="Bulk Import">
                     <sheet>

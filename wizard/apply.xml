@@ -5,7 +5,6 @@
         <record model="ir.ui.view" id="pos_customer_account_apply_credit">
             <field name="name">pos.customer.account.apply.form</field>
             <field name="model">pos.customer.account.apply.credit</field>
-            <field name="view_type">form</field>
             <field name="arch" type="xml">
                 <form string="Apply Credit">
                     <sheet>
@@ -36,7 +35,6 @@
         <record model="ir.ui.view" id="pos_customer_account_apply_debit">
             <field name="name">pos.customer.account.apply.form</field>
             <field name="model">pos.customer.account.apply.debit</field>
-            <field name="view_type">form</field>
             <field name="arch" type="xml">
                 <form string="Apply Debit">
                     <sheet>

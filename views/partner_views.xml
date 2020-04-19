@@ -16,7 +16,6 @@
             </field>
         </record>
 
-
         <record id="view_partner_property_form" model="ir.ui.view">
             <field name="name">res.partner.pos.form.inherit</field>
             <field name="model">res.partner</field>
@@ -61,7 +60,6 @@
               <field name="name">Customers</field>
               <field name="type">ir.actions.act_window</field>
               <field name="res_model">res.partner</field>
-              <field name="view_type">form</field>
               <field name="view_mode">tree,form</field>
               <field name="domain">[('customer','=',1), ('parent_id', '=', False)]</field>
               <field name="search_view_id" ref="view_pos_customer_account_filter"/>
