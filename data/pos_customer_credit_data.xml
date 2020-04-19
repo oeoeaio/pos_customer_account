@@ -16,7 +16,6 @@
             <field name="name">Account</field>
             <field name="code">CACC</field>
             <field name="type">bank</field>
-            <field name="journal_user">1</field>
             <field name="sequence">10</field>
             <field name="default_credit_account_id" ref="customer_account_account"/>
             <field name="default_debit_account_id" ref="customer_account_account"/>
