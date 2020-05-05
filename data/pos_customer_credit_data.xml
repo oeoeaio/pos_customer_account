@@ -3,13 +3,20 @@
     <data noupdate="1">
         <record id="customer_account_account" model="account.account">
             <field name="name">Customer Account</field>
-            <field name="user_type_id" ref="account.data_account_type_current_liabilities"/>
-            <field name="code">21650</field>
+            <field name="user_type_id" ref="account.data_account_type_receivable"/>
+            <field name="code">11205</field>
+            <field name="reconcile" eval="True" />
         </record>
 
         <record id="account_payment_product" model="product.product">
             <field name="name">Account Payment</field>
             <field name="property_account_income_id" ref="customer_account_account"/>
+        </record>
+
+        <record id="pos_account_payment_method" model="pos.payment.method">
+            <field name="name">Account</field>
+            <field name="receivable_account_id" ref="customer_account_account"/>
+            <field name="split_transactions" eval="True" />
         </record>
 
         <record id="pos_customer_account_journal" model="account.journal">

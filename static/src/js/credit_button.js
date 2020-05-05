@@ -44,9 +44,9 @@ odoo.define('pos.customer.account.credit_button', function (require) {
             var client = this.pos.get_client();
             if (!client) { return; }
 
-            var jid = this.pos.db.account_journal_id;
-            if (jid) {
-              var tendered = this.account_payment_total(jid);
+            var account_payment_method_id = this.pos.db.account_payment_method_id;
+            if (account_payment_method_id) {
+              var tendered = this.account_payment_total(account_payment_method_id);
 
               if (tendered > 0) {
                 return this.pos.gui.show_popup('alert', {
@@ -89,19 +89,19 @@ odoo.define('pos.customer.account.credit_button', function (require) {
             this.set_label();
             this.renderElement();
         },
-        account_payment_total: function(journal_id){
+        account_payment_total: function(payment_method){
           var order = this.pos.get_order();
           return order.paymentlines.filter(function(paymentLine){
-            return paymentLine.cashregister.journal_id[0] == journal_id;
+            return paymentLine.payment_method == payment_method;
           }).reduce((function(sum, paymentLine) {
             return sum + paymentLine.get_amount();
           }), 0);
         },
         update_balance: function(balance){
-            var jid = this.pos.db.account_journal_id;
-            if (!jid) return;
-            var tendered = this.account_payment_total(jid);
-            var method = this.paymentScreen.$('.paymentmethod[data-id="' +jid+ '"]');
+            var account_payment_method_id = this.pos.db.account_payment_method_id;
+            if (!account_payment_method_id) return;
+            var tendered = this.account_payment_total(account_payment_method_id);
+            var method = this.paymentScreen.$('.paymentmethod[data-id="' +account_payment_method_id+ '"]');
             var element = method.children('.balance');
             if (!element.length) element = $("<div class='balance'></div>").appendTo(method);
             element.toggleClass('credit', balance-tendered >= 0).toggleClass('debt', balance-tendered < 0)
@@ -120,18 +120,18 @@ odoo.define('pos.customer.account.credit_button', function (require) {
         }
     }
 
-    // At POS startup, find the account journal and account payment product id if they exist
+    // At POS startup, find the account payment method and account payment product id if they exist
     models.load_models({
         model: 'ir.model.data',
         fields: ['res_id','name','model'],
-        domain: [['name','in',['pos_customer_account_journal','account_payment_product']]],
+        domain: [['name','in',['pos_account_payment_method','account_payment_product']]],
         loaded: function(self,data){
             for (var i=0;i<data.length;i++){
                 if (data[i].name == 'account_payment_product' && data[i].model == 'product.product'){
                     self.db.account_payment_product_id = data[i].res_id;
                 }
-                else if (data[i].name == 'pos_customer_account_journal' && data[i].model == 'account.journal'){
-                    self.db.account_journal_id = data[i].res_id;
+                else if (data[i].name == 'pos_account_payment_method' && data[i].model == 'pos.payment.method'){
+                    self.db.account_payment_method_id = data[i].res_id;
                 }
             }
         },
@@ -169,9 +169,9 @@ odoo.define('pos.customer.account.credit_button', function (require) {
                 return 0;
             }
         },
-        add_paymentline: function(cashregister) {
-            var jid = this.pos.db.account_journal_id;
-            if (jid != cashregister.journal_id[0]) {
+        add_paymentline: function(payment_method) {
+            var account_payment_method_id = this.pos.db.account_payment_method_id;
+            if (account_payment_method_id != payment_method.id) {
               _super_order.add_paymentline.apply(this,arguments);
               return;
             }
@@ -190,9 +190,8 @@ odoo.define('pos.customer.account.credit_button', function (require) {
                 body: 'You cannot pay on Account when account credit is being purchased. Please remove the account payment item from the order before paying on Account.'
               });
             }
-
             this.assert_editable();
-            var newPaymentline = new models.Paymentline({},{order: this, cashregister:cashregister, pos: this.pos});
+            var newPaymentline = new models.Paymentline({},{order: this, payment_method:payment_method, pos: this.pos});
             var balance = client.account_balance;
             var due = this.get_due();
             var toPay = (balance > 0 ? Math.min(balance,due) : due);
