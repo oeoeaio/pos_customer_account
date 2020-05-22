@@ -112,13 +112,14 @@ odoo.define('pos.customer.account.credit_button', function (require) {
 
     // Find the model request for partners (customers)
     // and add account balance to the field list
-    var model_list = models.PosModel.prototype.models;
-    for (var i=0;i < model_list.length;i++){
-        if (model_list[i].model === 'res.partner'){
-            model_list[i].fields.push('account_balance');
-            break;
-        }
-    }
+    models.load_fields('res.partner', ['account_balance']);
+    // var model_list = models.PosModel.prototype.models;
+    // for (var i=0;i < model_list.length;i++){
+    //     if (model_list[i].model === 'res.partner'){
+    //         model_list[i].fields.push('account_balance');
+    //         break;
+    //     }
+    // }
 
     // At POS startup, find the account payment method and account payment product id if they exist
     models.load_models({
