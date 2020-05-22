@@ -57,7 +57,7 @@ class BulkImport(models.TransientModel):
 
     def _get_partner_id(self, external_id):
         try:
-            partner = self.env['ir.model.data'].get_object('', external_id)
+            partner = self.env['ir.model.data'].get_object('__import__', external_id)
             return partner.id
         except ValueError:
             raise ValidationError("Could not find customer: %s." %(external_id))
