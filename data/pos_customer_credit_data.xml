@@ -10,7 +10,8 @@
 
         <record id="account_payment_product" model="product.product">
             <field name="name">Account Payment</field>
-            <field name="property_account_income_id" ref="customer_account_account"/>
+            <field name="available_in_pos" eval="True" />
+            <field name="taxes_id" eval="[(6, 0, [ref('l10n_au.1_au_tax_sale_exempt')])]"/>
         </record>
 
         <record id="pos_account_payment_method" model="pos.payment.method">
