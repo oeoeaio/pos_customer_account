@@ -15,7 +15,9 @@
         'views/account_move_views.xml',
         'views/partner_views.xml',
         'views/assets.xml',
-        'views/customer_menu_views.xml'
+        'views/customer_menu_views.xml',
+        'views/account_reports.xml',
+        'views/report_customer_account_balance.xml'
     ],
     'qweb': [
         'static/src/xml/account_templates.xml'
