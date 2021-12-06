@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="account.report_customer_account_balance_document">
+    <t t-call="web.external_layout">
+        <div class="page">
+            <div class="row">
+                <p>
+                    <strong>
+                        Customer account statement<br/>
+                        Customer Name: <span t-field="o.name"/><br/>
+                        Date: <span t-esc="Date"/><br/>
+                    </strong>
+                </p>
+
+                <t t-if="Lines[o.id]">
+                    <p>
+                      Dear Sir/Madam,
+                    </p>
+                    <p>
+                      Please find below a summary of your account transactions at Baw Baw Food Hub. This only lists
+                      transactions where there are purchases on your account (e.g. after delivery or using account credit
+                      at the shop) and payments by you to your account via EFT, online payments through the OFN shop
+                      or an account payment at the hub. Normal over the counter purchases using card and cash at the
+                      hub are not shown. Transactions completed in the last 24 hours may not be processed yet. Please
+                      contact us immediately if you believe there are any errors.
+                    </p>
+                    <p>
+                      If there is an outstanding debit, we would appreciate payment at your earliest convenience. Our
+                      bank details are: Baw Baw Food Hub, BSB: 633-000 Account: 153 165 824. Please include your name
+                      in the transaction description.
+                    </p>
+                    <p>
+                      Please contact us at info@bawbawfoodhub.org.au if you have any questions or need more
+                      information. Thank you for your cooperation.
+                    </p>
+                    <p>
+                      Kind regards – the team at Baw Baw Food Hub.
+                    </p>
+                    <table class="table table-condensed table-borderless" t-foreach="Lines[o.id]" t-as="currency">
+                        <tr>
+                            <td><h3>Balance:</h3></td>
+                            <td class="text-right">
+                                <h3>
+                                    <span t-esc="Totals[o.id][currency]['balance']" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </h3>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-condensed table-striped" t-foreach="Lines[o.id]" t-as="currency">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-right">Credit/Debit</th>
+                                <th class="text-right">Balance</th>
+                            </tr>
+                        </thead>
+                        <tr t-foreach="Lines[o.id][currency]" t-as="line">
+                            <td>
+                                <span t-esc="line['ref']"/> -  <t t-if="line['name'] != '/'"><span t-esc="line['name']"/></t>
+                            </td>
+                            <td>
+                                <span t-esc="line['date']"/>
+                            </td>
+                            <td class="text-right">
+                                <t t-if="line['debit'] &gt; 0">
+                                    -<span t-esc="line['debit']" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </t>
+                                <t t-elif="line['credit'] &gt; 0">
+                                    <span t-esc="line['credit']" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                </t>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="line['running_balance']" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </t>
+                <p t-if="not Lines[o.id]">
+                    <strong>There is nothing due with this customer.</strong>
+                </p>
+            </div>
+        </div>
+   </t>
+</template>
+
+<template id="account.report_customer_account_balance">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="account.report_customer_account_balance_document" t-lang="o.lang"/>
+        </t>
+    </t>
+</template>
+</odoo>
