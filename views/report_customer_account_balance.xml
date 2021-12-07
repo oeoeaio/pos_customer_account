@@ -4,41 +4,56 @@
     <t t-call="web.external_layout">
         <div class="page">
             <div class="row">
-                <p>
-                    <strong>
-                        Customer account statement<br/>
-                        Customer Name: <span t-field="o.name"/><br/>
-                        Date: <span t-esc="Date"/><br/>
-                    </strong>
-                </p>
+                <table class="table table-condensed table-borderless">
+                    <tr>
+                        <td>
+                            <p>
+                                <strong>Customer account statement</strong><br/>
+                                Customer Name: <span t-field="o.name"/><br/>
+                                Date: <span t-esc="Date"/>
+                            </p>
+                        </td>
+                        <td class="text-right">
+                            <p>
+                                <strong>Bank Details</strong><br/>
+                                Name: Baw Baw Food Hub<br/>
+                                BSB: 633-000<br/>
+                                Account: 153 165 824
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
 
                 <t t-if="Lines[o.id]">
                     <p>
                       Dear Sir/Madam,
                     </p>
                     <p>
-                      Please find below a summary of your account transactions at Baw Baw Food Hub. This only lists
-                      transactions where there are purchases on your account (e.g. after delivery or using account credit
-                      at the shop) and payments by you to your account via EFT, online payments through the OFN shop
-                      or an account payment at the hub. Normal over the counter purchases using card and cash at the
-                      hub are not shown. Transactions completed in the last 24 hours may not be processed yet. Please
-                      contact us immediately if you believe there are any errors.
+                      Please find below a summary of your account transactions at Baw Baw Food Hub.
+                    </p>
+                    <p t-if="Totals[o.id][currency]['balance'] &lt; 0">
+                        <strong>
+                            As there is an outstanding debt, we would appreciate payment at your earliest convenience. Our
+                            bank details are above. Thank you for your cooperation.
+                        </strong>
+                    </p>
+                    <p t-else="">
+                        <strong>
+                            Your account is currently in credit, so there is no action required from you at this time. Thank you.
+                        </strong>
                     </p>
                     <p>
-                      If there is an outstanding debit, we would appreciate payment at your earliest convenience. Our
-                      bank details are: Baw Baw Food Hub, BSB: 633-000 Account: 153 165 824. Please include your name
-                      in the transaction description.
-                    </p>
-                    <p>
-                      Please contact us at info@bawbawfoodhub.org.au if you have any questions or need more
-                      information. Thank you for your cooperation.
+                      Transactions completed in the last 24 hours may not be processed yet. Please contact us immediately (info@bawbawfoodhub.org.au) if you believe there are any errors or if you need more information.
                     </p>
                     <p>
                       Kind regards – the team at Baw Baw Food Hub.
                     </p>
-                    <table class="table table-condensed table-borderless" t-foreach="Lines[o.id]" t-as="currency">
+                    <table class="table table-condensed table-borderless">
                         <tr>
-                            <td><h3>Balance:</h3></td>
+                            <td>
+                              <h3>Account Balance:</h3>
+                            </td>
                             <td class="text-right">
                                 <h3>
                                     <span t-esc="Totals[o.id][currency]['balance']" t-options="{'widget': 'monetary', 'display_currency': currency}"/>
@@ -46,7 +61,7 @@
                             </td>
                         </tr>
                     </table>
-                    <table class="table table-condensed table-striped" t-foreach="Lines[o.id]" t-as="currency">
+                    <table class="table table-condensed table-striped">
                         <thead>
                             <tr>
                                 <th>Reference</th>
@@ -57,7 +72,7 @@
                         </thead>
                         <tr t-foreach="Lines[o.id][currency]" t-as="line">
                             <td>
-                                <span t-esc="line['ref']"/> -  <t t-if="line['name'] != '/'"><span t-esc="line['name']"/></t>
+                                <span t-esc="line['description']"/>
                             </td>
                             <td>
                                 <span t-esc="line['date']"/>
