@@ -14,14 +14,22 @@
         'wizard/bulk_import.xml',
         'views/account_move_views.xml',
         'views/partner_views.xml',
-        'views/assets.xml',
         'views/customer_menu_views.xml',
         'views/account_reports.xml',
         'views/report_customer_account_balance.xml'
     ],
-    'qweb': [
-        'static/src/xml/account_templates.xml'
-    ],
+    'assets': {
+        'point_of_sale.assets': [
+            'pos_customer_account/static/src/js/credit_button.js',
+            ('after', 'point_of_sale/static/src/css/pos.css', 'pos_customer_account/static/src/css/credit_button.css'),
+        ],
+        'web.assets_backend': [
+            'pos_customer_account/static/src/js/apply_buttons.js',
+        ],
+        'web.assets_qweb': [
+            'pos_customer_account/static/src/xml/**/*',
+        ],
+    },
     'images': [],
     'installable': True,
     'application': False,
