@@ -4,7 +4,7 @@ import time, re
 from odoo import api, fields, models
 
 class CustomerAccountBalance(models.AbstractModel):
-    _name = 'report.account.report_customer_account_balance'
+    _name = 'report.pos_customer_account.report_customer_account_balance'
 
     def _account_payment(self, line):
         match = re.search('^Account Payment$', line.name or '')

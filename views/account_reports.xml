@@ -6,8 +6,8 @@
             model="res.partner"
             report_type="qweb-pdf"
             string="Account Balance"
-            name="account.report_customer_account_balance"
-            file="account.report_customer_account_balance"
+            name="pos_customer_account.report_customer_account_balance"
+            file="pos_customer_account.report_customer_account_balance"
             print_report_name="'Account Balance - %s' % (object.name)"
         />
     </data>

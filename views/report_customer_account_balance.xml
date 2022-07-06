@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<template id="account.report_customer_account_balance_document">
+<template id="pos_customer_account.report_customer_account_balance_document">
     <t t-call="web.external_layout">
         <div class="page">
             <div class="row">
@@ -99,10 +99,10 @@
    </t>
 </template>
 
-<template id="account.report_customer_account_balance">
+<template id="pos_customer_account.report_customer_account_balance">
     <t t-call="web.html_container">
         <t t-foreach="docs" t-as="o">
-            <t t-call="account.report_customer_account_balance_document" t-lang="o.lang"/>
+            <t t-call="pos_customer_account.report_customer_account_balance_document" t-lang="o.lang"/>
         </t>
     </t>
 </template>
