@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos.customer.account.template" xml:space="preserve">
+
+    <t t-extend="ListView.buttons" t-name="CustomerAccountTransactionsListView.buttons">
+        <t t-jquery="button.o_list_button_discard" t-operation="after">
+          <button type="button" class="btn btn-primary btn-sm oe_bulk_import_button">
+              Bulk Import
+          </button>
+        </t>
+        <t t-jquery="button.o_list_button_discard" t-operation="after">
+            <button type="button" class="btn btn-danger btn-sm oe_apply_debit_button">
+                Apply Debit
+            </button>
+        </t>
+
+        <t t-jquery="button.o_list_button_discard" t-operation="after">
+            <button type="button" class="btn btn-success btn-sm oe_apply_credit_button">
+                Apply Credit
+            </button>
+        </t>
+    </t>
+</templates>

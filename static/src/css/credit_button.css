@@ -17,11 +17,6 @@
   color: #ffffff;
 }
 
-.pos .payment-screen .paymentmethods .paymentmethod .balance {
-    margin-top: -28px;
-    margin-bottom: 12px;
-    line-height: 16px;
-}
 .pos .payment-screen .paymentmethods .paymentmethod .balance.debt {
   color: #cb0000;
 }

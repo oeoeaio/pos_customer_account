@@ -6,7 +6,7 @@
             <field name="model">account.move.line</field>
             <field eval="1" name="priority"/>
             <field name="arch" type="xml">
-                <tree string="Account Transactions" create="false">
+                <tree string="Account Transactions" js_class="account_move_line_tree" create="false">
                     <field name="date"/>
                     <field name="partner_id"/>
                     <field name="name"/>

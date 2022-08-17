@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos.customer.account.template" xml:space="preserve">
+
+  <t t-name="CreditButton" owl="1">
+      <t t-set="button_class" t-value="(state.disabled ? 'disabled' : (state.highlight ? 'highlighted' : ''))"/>
+      <div t-attf-class="control-button button js_credit {{ button_class }}" t-on-click="clickCredit">
+          <i class="fa fa-usd"></i>
+          <t t-esc="state.label"/>
+      </div>
+  </t>
+
+  <t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+      <xpath expr="//div[hasclass('payment-controls')]" position="inside">
+        <CreditButton />
+      </xpath>
+  </t>
+</templates>
