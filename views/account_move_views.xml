@@ -29,7 +29,7 @@
             <field name="res_model">account.move.line</field>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_account_move_line_tree"/>
-            <field name="domain" eval="[('account_id', '=', ref('customer_account_account'))]"/>
+            <field name="domain" eval="[('account_id', '=', ref('l10n_au.1_au_11200'))]"/>
         </record>
 
     </data>

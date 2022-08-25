@@ -8,19 +8,25 @@ odoo.define('pos.customer.account.models', function (require) {
     // Add account balance to the partner field list
     models.load_fields('res.partner', ['account_balance']);
 
-    // At POS startup, find the account payment method and account payment product id if they exist
+    // At POS startup, find the customer account payment method id
+    models.load_models({
+        model: 'pos.payment.method',
+        fields: [],
+        domain: [['name', '=', 'Customer Account'], ['type','=','pay_later']],
+        loaded: function(self, pos_payment_methods){
+            self.db.account_payment_method_id = pos_payment_methods[0].id;
+        },
+    });
+
+    // At POS startup, find the account payment product id
     models.load_models({
         model: 'ir.model.data',
         fields: ['res_id','name','model'],
-        domain: [['name','in',['pos_account_payment_method','account_payment_product']]],
+        domain: [['name','=',['account_payment_product']]],
         loaded: function(self,data){
             for (var i=0;i<data.length;i++){
                 if (data[i].name == 'account_payment_product' && data[i].model == 'product.product'){
                     self.db.account_payment_product_id = data[i].res_id;
-                }
-                else if (data[i].name == 'pos_account_payment_method' && data[i].model == 'pos.payment.method'){
-                    console.log(data)
-                    self.db.account_payment_method_id = data[i].res_id;
                 }
             }
         },

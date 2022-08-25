@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <record id="customer_account_account" model="account.account">
-            <field name="name">Customer Account</field>
-            <field name="user_type_id" ref="account.data_account_type_receivable"/>
-            <field name="code">11205</field>
-            <field name="reconcile" eval="True" />
-        </record>
-
         <record id="account_payment_product" model="product.product">
             <field name="name">Account Payment</field>
             <field name="available_in_pos" eval="True" />
             <field name="taxes_id" eval="[(6, 0, [ref('l10n_au.1_au_tax_sale_exempt')])]"/>
-        </record>
-
-        <record id="pos_account_payment_method" model="pos.payment.method">
-            <field name="name">Account</field>
-            <field name="receivable_account_id" ref="customer_account_account"/>
-            <field name="split_transactions" eval="True" />
         </record>
 
         <record id="pos_customer_account_journal" model="account.journal">
@@ -26,7 +13,7 @@
             <field name="type">bank</field>
             <field name="sequence">10</field>
             <field name='company_id' ref="base.main_company"/>
-            <field name="default_account_id" ref="customer_account_account"/>
+            <field name="default_account_id" ref="l10n_au.1_au_11200"/>
         </record>
     </data>
 </odoo>

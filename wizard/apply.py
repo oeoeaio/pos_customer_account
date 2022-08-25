@@ -33,7 +33,7 @@ class Apply(models.TransientModel):
         return result
 
     def action_apply(self):
-        account_id = self.env.ref('pos_customer_account.customer_account_account').id
+        account_id = self.env.ref('l10n_au.1_au_11200').id
         journal_id = self.env.ref('pos_customer_account.pos_customer_account_journal').id
         amount = self.amount
 
@@ -79,7 +79,7 @@ class ApplyDebit(Apply):
     _name = 'pos.customer.account.apply.debit'
 
     def _default_counterpart_account(self):
-        return self.env.ref('l10n_au.1_au_11200')
+        return self.env.ref('l10n_au.1_au_11110')
 
     def _is_credit(self):
         return False

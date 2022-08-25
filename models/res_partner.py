@@ -17,7 +17,7 @@ class ResPartner(models.Model):
             partner.account_balance = balance
 
     def _account_lines_domain(self):
-        account = self.env.ref('pos_customer_account.customer_account_account', False)
+        account = self.env.ref('l10n_au.1_au_11200')
         account_id = account and account.id
         return [('account_id', '=', account_id)]
 

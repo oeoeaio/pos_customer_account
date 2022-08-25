@@ -30,8 +30,8 @@ class PosOrder(models.Model):
 
     def _apply_customer_account_payment(self, credit, partner_id, date, reference, label):
         journal_id = self.env.ref('pos_customer_account.pos_customer_account_journal').id
-        account_id = self.env.ref('pos_customer_account.customer_account_account').id
-        counterpart_account_id = self.env.ref('l10n_au.1_au_11200').id
+        account_id = self.env.ref('l10n_au.1_au_11200').id
+        counterpart_account_id = self.env.ref('l10n_au.1_au_11110').id
 
         move = self._create_account_move(date, reference, journal_id)
         self.env['ir.model.data'].create({'name': label, 'model': 'account.move', 'res_id': move.id})

@@ -83,11 +83,11 @@ class BulkImport(models.TransientModel):
 
     @memoize
     def _counterpart_account_id(self):
-        return self.env.ref('l10n_au.1_au_11200').id
+        return self.env.ref('l10n_au.1_au_11110').id
 
     @memoize
     def _account_id(self):
-        return self.env.ref('pos_customer_account.customer_account_account').id
+        return self.env.ref('l10n_au.1_au_11200').id
 
     @memoize
     def _journal_id(self):
