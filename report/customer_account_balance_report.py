@@ -55,7 +55,7 @@ class CustomerAccountBalance(models.AbstractModel):
         return res
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         totals = {}
         lines = self._get_account_move_lines(docids)
         lines_to_display = {}
