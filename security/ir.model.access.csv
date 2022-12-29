@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pos_customer_account_bulk_import,pos.customer.account.bulk_import,model_pos_customer_account_bulk_import,point_of_sale.group_pos_user,1,1,1,1
+access_pos_customer_account_apply_credit,pos.customer.account.apply.credit,model_pos_customer_account_apply_credit,point_of_sale.group_pos_user,1,1,1,1
+access_pos_customer_account_apply_debit,pos.customer.account.apply.debit,model_pos_customer_account_apply_debit,point_of_sale.group_pos_user,1,1,1,1
