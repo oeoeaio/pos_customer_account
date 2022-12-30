@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos.customer.account.template" xml:space="preserve">
+  <t t-name="AccountBalance" owl="1">
+      <t t-set="balance_class" t-value="(state.credit >= 0 ? 'credit' : 'debt')"/>
+      <div t-attf-class="balance {{ balance_class }}">
+          <t t-esc='env.pos.format_currency(state.credit)' />
+      </div>
+  </t>
+
+  <t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentMethodButton" t-inherit-mode="extension" owl="1">
+      <xpath expr="//div[hasclass('paymentmethod')]/div[hasclass('payment-name')]" position="after">
+          <t t-if="props.paymentMethod.name == 'Customer Account' and env.pos.get_client() != null">
+              <AccountBalance />
+          </t>
+      </xpath>
+  </t>
+</templates>

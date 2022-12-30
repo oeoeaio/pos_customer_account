@@ -22,6 +22,7 @@
     'assets': {
         'point_of_sale.assets': [
             'pos_customer_account/static/src/js/models.js',
+            'pos_customer_account/static/src/js/Screens/PaymentScreen/AccountBalance.js',
             'pos_customer_account/static/src/js/Screens/PaymentScreen/CreditButton.js',
             ('after', 'point_of_sale/static/src/css/pos.css', 'pos_customer_account/static/src/css/credit_button.css'),
         ],

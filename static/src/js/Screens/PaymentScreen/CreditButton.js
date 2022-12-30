@@ -35,8 +35,8 @@ odoo.define('pos_customer_account.CreditButton', function(require) {
             }
             else if (credit > 0) {
               this.state.label = "Paying: " + this.env.pos.format_currency(credit)
+              this.state.highlight = false
             }
-            this.updateBalance(balance);
         }
         async clickCredit() {
             var client = this.env.pos.get_client();
@@ -44,7 +44,7 @@ odoo.define('pos_customer_account.CreditButton', function(require) {
 
             var accountPaymentMethodId = this.env.pos.db.account_payment_method_id;
             if (accountPaymentMethodId) {
-              var tendered = this.accountPaymentTotal(accountPaymentMethodId);
+              var tendered = this.env.pos.get_order().account_payment_total();
 
               if (tendered > 0) {
                 return await this.showPopup('ErrorPopup', {
@@ -81,33 +81,6 @@ odoo.define('pos_customer_account.CreditButton', function(require) {
                 // self.paymentScreen.order_changes();
                 // self.paymentScreen.render_paymentlines();
             }
-        }
-        accountPaymentTotal(paymentMethodId){
-          var order = this.env.pos.get_order();
-          return order.paymentlines.filter(function(paymentLine){
-            return paymentLine.payment_method.id == paymentMethodId;
-          }).reduce((function(sum, paymentLine) {
-            return sum + paymentLine.get_amount();
-          }), 0);
-        }
-        updateBalance(balance) {
-            let accountPaymentMethodId = this.env.pos.db.account_payment_method_id;
-            if (!accountPaymentMethodId) return;
-            var tendered = this.accountPaymentTotal(accountPaymentMethodId);
-            let paymentMethod = this.env.pos.payment_methods_by_id[accountPaymentMethodId];
-            let paymentMethodElements = Array.from(document.querySelectorAll('.paymentmethod'))
-            let methodElement = paymentMethodElements.find(el => el.textContent === paymentMethod.name);
-            if (!methodElement) return;
-            let balanceElement = methodElement.querySelector('div.balance');
-            if (!balanceElement) {
-              balanceElement = document.createElement('div');
-              balanceElement.className = 'balance';
-              methodElement.appendChild(balanceElement);
-            }
-            balanceElement.classList.toggle('credit', balance-tendered >= 0)
-            balanceElement.classList.toggle('debt', balance-tendered < 0)
-            balanceElement.innerHTML = "("+this.env.pos.format_currency(balance-tendered)+")"
-            methodElement.classList.toggle('credit', tendered == 0 && balance > 0);
         }
     }
 

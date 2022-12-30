@@ -13,7 +13,7 @@
   background-color: #6EC89B;
 }
 .pos .payment-screen .paymentmethods .paymentmethod.credit .balance.credit,
-.pos .payment-screen .paymentmethods .paymentmethod.credit .balance.debit {
+.pos .payment-screen .paymentmethods .paymentmethod.credit .balance.debt {
   color: #ffffff;
 }
 

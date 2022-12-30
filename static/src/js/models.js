@@ -3,6 +3,7 @@ odoo.define('pos.customer.account.models', function (require) {
 
     var models = require('point_of_sale.models');
     const { Gui } = require('point_of_sale.Gui');
+    const { posbus } = require('point_of_sale.utils');
 
     // Add account balance to the partner field list
     models.load_fields('res.partner', ['account_balance']);
@@ -86,6 +87,24 @@ odoo.define('pos.customer.account.models', function (require) {
             newPaymentline.set_amount( toPay );
             this.paymentlines.add(newPaymentline);
             this.select_paymentline(newPaymentline);
+            posbus.trigger('account-balance-updated');
+            return newPaymentline;
+        },
+        remove_paymentline: async function(line) {
+            _super_order.remove_paymentline.apply(this, arguments);
+
+            var account_payment_method_id = this.pos.db.account_payment_method_id;
+            if (account_payment_method_id == line.payment_method.id) {
+                posbus.trigger('account-balance-updated');
+            }
+        },
+        account_payment_total: function() {
+          let account_payment_method_id = this.pos.db.account_payment_method_id;
+          return this.paymentlines.filter(function(paymentLine){
+            return paymentLine.payment_method.id == account_payment_method_id;
+          }).reduce((function(sum, paymentLine) {
+            return sum + paymentLine.get_amount();
+          }), 0);
         },
     });
 });
