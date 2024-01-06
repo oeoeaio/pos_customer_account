@@ -24,7 +24,10 @@
                           <strong>reference</strong>: the reference from the bank statement.
                         </div>
                         <div>
-                          <strong>credit</strong>: the credit amount, a positive number (no $ sign).
+                          <strong>credit</strong>: the credit amount, a positive number (no $ sign), should be 0 if row is an account debit.
+                        </div>
+                        <div>
+                          <strong>debit</strong>: the debit amount, a positive number (no $ sign), should be 0 if the row is an account credit.
                         </div>
                         <br />
                         <group>
